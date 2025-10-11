@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "967263500393",
+    "project_id": "damburguershop",
+    "storage_bucket": "damburguershop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967263500393:android:40ba3699b3e2453d664af8",
+        "android_client_info": {
+          "package_name": "com.svbsyucorp.damburguershop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJwfkzsbzRgLXgYlSD6-zQt9CIeFXcnTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
