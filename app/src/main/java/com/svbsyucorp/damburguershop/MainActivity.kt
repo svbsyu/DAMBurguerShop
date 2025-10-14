@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.orderBtn).setOnClickListener {
-            Toast.makeText(this, "Pedidos", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OrdersActivity::class.java))
         }
 
         findViewById<View>(R.id.profileBtn).setOnClickListener {
