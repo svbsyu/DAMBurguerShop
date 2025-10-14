@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DAMBurguerShop">
         <activity
+            android:name=".ExplorarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityExplorar"
+            android:exported="false" />
+        <activity
+            android:name=".FavoritosActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegistroActivity"
             android:exported="false" />
         <activity

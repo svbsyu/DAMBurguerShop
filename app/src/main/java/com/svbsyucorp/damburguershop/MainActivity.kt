@@ -1,5 +1,6 @@
 package com.svbsyucorp.damburguershop
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,25 +21,25 @@ import java.util.Timer
 import java.util.TimerTask
 
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var bannerViewPager: ViewPager2
     private lateinit var timer: Timer
     private val bannerUrls = mutableListOf<String>()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        
+
         initViews()
         loadData()
         setupBottomNavigation()
     }
-    
+
     private fun initViews() {
         bannerViewPager = findViewById(R.id.bannerViewPager)
     }
-    
+
     private fun loadData() {
         try {
             // Datos de ejemplo basados en tu JSON
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 CategoryModel(3, "Brocheta"),
                 CategoryModel(4, "Fusion")
             )
-            
+
             val popularItems = listOf(
                 ItemModel(
                     categoryId = "4",
@@ -88,11 +89,11 @@ class MainActivity : AppCompatActivity() {
                     title = "Sandwich Plant-Based"
                 )
             )
-            
+
             val banners = listOf(
                 "https://res.cloudinary.com/dkauxesya/image/upload/v1760165943/logo_opcional_mzhb9m.jpg"
             )
-            
+
             setupBanner(banners)
             setupCategories(categories)
             setupPopularItems(popularItems)
@@ -100,67 +101,67 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Error cargando datos: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     private fun setupBanner(banners: List<String>) {
         bannerUrls.clear()
         bannerUrls.addAll(banners)
-        
+
         val adapter = BannerAdapter(bannerUrls)
         bannerViewPager.adapter = adapter
-        
+
         findViewById<View>(R.id.progressBarBanner).visibility = View.GONE
-        
+
         if (bannerUrls.size > 1) {
             autoScrollBanner()
         }
     }
-    
+
     private fun setupCategories(categories: List<CategoryModel>) {
         val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerViewCategory)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        
+
         val adapter = CategoryAdapter(categories) { category ->
             Toast.makeText(this, "Categoría seleccionada: ${category.title}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = adapter
-        
+
         findViewById<View>(R.id.progressBarCategory).visibility = View.GONE
     }
-    
+
     private fun setupPopularItems(items: List<ItemModel>) {
         val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerViewPopular)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
-        
+
         val adapter = PopularAdapter(items) { item ->
             Toast.makeText(this, "Item seleccionado: ${item.title}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = adapter
-        
+
         findViewById<View>(R.id.progressBarPopular).visibility = View.GONE
     }
-    
+
     private fun setupBottomNavigation() {
         findViewById<View>(R.id.explorerBtn).setOnClickListener {
-            Toast.makeText(this, "Explorar", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ExplorarActivity::class.java))
         }
-        
+
         findViewById<View>(R.id.cartBtn).setOnClickListener {
             Toast.makeText(this, "Carrito", Toast.LENGTH_SHORT).show()
         }
-        
+
         findViewById<View>(R.id.favoriteBtn).setOnClickListener {
-            Toast.makeText(this, "Favoritos", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, FavoritosActivity::class.java))
         }
-        
+
         findViewById<View>(R.id.orderBtn).setOnClickListener {
             Toast.makeText(this, "Pedidos", Toast.LENGTH_SHORT).show()
         }
-        
+
         findViewById<View>(R.id.profileBtn).setOnClickListener {
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     private fun autoScrollBanner() {
         val handler = Handler(Looper.getMainLooper())
         val runnable = Runnable {
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             val next = if (current + 1 < bannerUrls.size) current + 1 else 0
             bannerViewPager.currentItem = next
         }
-        
+
         timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
             }
         }, 3000, 3000)
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         if (::timer.isInitialized) {
